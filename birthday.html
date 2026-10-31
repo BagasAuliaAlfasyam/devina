@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .envelope-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+
+    .envelope-btn:hover {
+      background-color: #d63447;
+    }
+
+    .envelope-icon {
+      margin-right: 8px;
+    }
+
+    .swal2-popup {
+      border-radius: 12px;
+    }
+
+    .birthday-image {
+      width: 100%;
+      max-width: 350px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworksCanvas"></canvas>
+  <div class="message">
+    <h1 style="font-size:15px" id="typingText"></h1>
+    <button id="openButton" class="envelope-btn" style="display: none;">
+      📩 Buka
+    </button>
+  </div>
+  
+
+  <div class="music-player">
+    <audio id="BgMusic" src="Monokrom-Tulus.mp3"></audio>
+    <div class="control">
+      <button id="playButton">Play</button>
+      <button id="pauseButton">Jeda</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let name = localStorage.getItem('birthdayName') || "Ayangg";
+      let age = localStorage.getItem('birthdayAge') || "??";
+      let message = `Selamat Ulang Tahun Yang Ke ${age}, ${name}!\n\n🎉🎂🎉\n\nSemoga di hari yang akan datang kamu penuh dengan kebahagiaan dan kejutan yang indah! \nKarena setiap tahun adalah kesempatanmu untuk tumbuh lebih kuat, lebih bijak, dan lebih dekat dengan versi terbaik dirimu yang bisa kamu capai,\nuntuk itu teruslah melangkah, dunia menantimu!🌞🌱\n\nDan ingat, janganlah kamu pernah berhenti berfikir untuk mempercayai bahwa di balik semua kekurangan, akan ada kelebihan yang hanya menunggu waktu untuk bersinar terang,\n kamu juga harus berpikir untuk tidak perlu terlalu sempurna dalam kehidupan ini, karena justru ketidaksempurnaan itulah yang membuat seseorang ingin mengenalmu lebih lama.🌟💡⏳\n\nTerakhir, jika kamu merasa tak istimewa, maka ingatlah bahwa ada seseorang yang menyimpan semua cerita tentangmu sebagai harta berharganya.💝📖`;
+
+      let index = 0;
+      function typeText() {
+        if (index < message.length) {
+          let currentChar = message.charAt(index);
+          document.getElementById("typingText").innerHTML += currentChar === "\n" ? "<br>" : currentChar;
+          index++;
+          setTimeout(typeText, 5);
+        } else {
+          document.getElementById("openButton").style.display = "block"; // Menampilkan tombol amplop setelah teks selesai diketik
+        }
+      }
+
+      setTimeout(typeText, 2000);
+
+      document.getElementById("openButton").addEventListener("click", function() {
+        Swal.fire({
+          title: "🎁 Surprise!",
+          html: `
+            <img src="birthday-photo.jpg" class="birthday-image" alt="Birthday Image">
+            <h3 style="margin-top:10px;">Happy Birthday sayang! 💖</h3>
+          `,
+          showConfirmButton: false,
+          showCloseButton: true,
+          backdrop: true,
+          width: 400,
+        });
+      });
+
+      setTimeout(() => {
+        let musicPlayer = document.querySelector(".music-player");
+        musicPlayer.style.display = "flex";
+      }, 2000);
+      
+      window.onload = function() {
+        setTimeout(() => {
+          let audio = document.getElementById("BgMusic");
+          audio.play().catch(error => {
+            alert("Musik tidak dapat diputar secara otomatis. Silakan tekan tombol 'Play di kiri bawah' untuk mendengarkan.");
+            document.getElementById("playButton").style.display = "block";
+          });
+        }, 2000);
+      };
+
+      let audio = document.getElementById("BgMusic");
+      document.getElementById("playButton").addEventListener("click", () => audio.play());
+      document.getElementById("pauseButton").addEventListener("click", () => audio.pause());
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
